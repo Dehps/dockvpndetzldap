@@ -1,0 +1,27 @@
+---
+services:
+  openvpnldap:
+    image: mytaggedimage:latest
+    container_name: opnvpnldap
+    volumes:
+      - ./PATHTOLOCALVOLUME:/etc/openvpn
+    ports:
+      - "1194:1194/tcp"
+    cap_add:
+      - NET_ADMIN
+    restart: always
+    environment:
+      OVPN_SERVER_CN: my.vpn
+      OVPN_PORT: 1194
+      OVPN_PORT_CLIENT_SIDE: 443
+      OVPN_PROTOCOL: tcp
+      OVPN_DNS_SERVERS: 172.16.XX.X
+      OVPN_LDAP_HOST: 172.16.XX.X
+      OVPN_LDAP_BindDN: CN=bindbnuser,CN=Managed Service Accounts,DC=my,DC=domain
+      OVPN_LDAP_BindPassword: BINDUSERPASSWORD
+      OVPN_LDAP_BaseDN: OU=users,DC=my,DC=domain
+      OVPN_LDAP_USERATTRIBUTE: sAMAccountName
+      OVPN_LDAP_GROUPMEMBER: CN=vpn_users,OU=GROUPS,DC=my,DC=domain
+      OVPN_LDAP_CONF: /etc/openvpn/ldap.conf
+      OVPN_VERBOSITY: 3
+      OVPN_NETWORK: 10.50.xx.xx 255.255.255.0
